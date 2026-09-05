@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a1a">
+<title>Chapter 7: The Beginning of Forever ✨</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Cinzel:wght@500;600&family=Marcellus&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    /* COSMIC ETERNITY PALETTE */
+    --void: #0a0a1a;
+    --space: #12122b;
+    --deep-plum: #1e0f3d;
+    --nebula-purple: #4a1a6e;
+    --molten-red: #d63384;
+    --sunset-coral: #ff6b6b;
+    --amber-glow: #ffa94d;
+    --sacred-gold: #ffd700;
+    --pearl-cream: #fff8e7;
+    --iridescent-blue: #7dd3fc;
+    --iridescent-pink: #f0abfc;
+    --rose-mist: #fbcfe8;
+    
+    --font-serif: 'Cormorant Garamond', serif;
+    --font-display: 'Playfair Display', serif;
+    --font-hand: 'Caveat', cursive;
+    --font-modern: 'Plus Jakarta Sans', sans-serif;
+    --font-mystical: 'Cinzel', serif;
+    --font-classical: 'Marcellus', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: var(--font-serif);
+    color: var(--pearl-cream);
+    overflow-x: hidden;
+    background: var(--void);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeSpeed;
+    min-height: 100vh;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: var(--sacred-gold); border-radius: 10px; }
+::selection { background: var(--sacred-gold); color: var(--void); }
+
+/* Cosmic Background */
+#cosmic-bg {
+    position: fixed; inset: 0; z-index: -5;
+    background:
+        radial-gradient(ellipse at 15% 15%, rgba(214, 51, 132, 0.25) 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 85%, rgba(255, 169, 77, 0.20) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 50%, rgba(74, 26, 110, 0.35) 0%, transparent 55%),
+        linear-gradient(180deg, var(--void) 0%, var(--space) 50%, var(--deep-plum) 100%);
+}
+#stars-canvas {
+    position: fixed; inset: 0; z-index: -4;
+    pointer-events: none;
+    opacity: 0.85;
+}
+#dust-canvas {
+    position: fixed; inset: 0; z-index: -3;
+    pointer-events: none;
+}
+.grain {
+    position: fixed; inset: 0; z-index: 9998;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* INTRO — cinematic curtain rise */
+#intro-screen {
+    position: fixed; inset: 0; z-index: 100000;
+    background: #000;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 20px;
+    transition: opacity 2.5s ease;
+    overflow: hidden;
+}
+.curtain-left, .curtain-right {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 50vw;
+    background: linear-gradient(90deg, var(--nebula-purple), var(--deep-plum));
+    z-index: 1;
+    transition: transform 3s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.curtain-left { left: 0; }
+.curtain-right { right: 0; }
+#intro-screen.open .curtain-left { transform: translateX(-100%); }
+#intro-screen.open .curtain-right { transform: translateX(100%); }
+
+.intro-content {
+    position: relative; z-index: 2;
+    max-width: 900px;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+#intro-screen.open .intro-content { opacity: 1; }
+.intro-badge {
+    font-family: var(--font-modern);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: var(--sacred-gold);
+    margin-bottom: 25px;
+    opacity: 0.9;
+}
+.intro-title {
+    font-family: var(--font-hand);
+    font-size: clamp(3rem, 9vw, 6.5rem);
+    background: linear-gradient(135deg, var(--sacred-gold), var(--amber-glow), var(--rose-mist));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 30px;
+}
+.intro-tagline {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    color: rgba(255, 248, 231, 0.85);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+#content { display: none; padding-bottom: 100px; position: relative; z-index: 1; }
+
+/* Hero */
+.hero-section {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 120px 20px 60px;
+}
+.hero-preamble {
+    font-family: var(--font-modern);
+    font-weight: 300;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    color: rgba(255, 215, 0, 0.75);
+    margin-bottom: 35px;
+}
+.hero-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 1.05;
+    margin-bottom: 35px;
+    background: linear-gradient(135deg, var(--pearl-cream), var(--rose-mist), var(--sacred-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.hero-title em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--sacred-gold), var(--amber-glow), var(--molten-red));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.hero-poem {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+    color: rgba(255, 248, 231, 0.88);
+    max-width: 720px;
+    line-height: 2;
+    font-weight: 300;
+}
+.hero-poem em { color: var(--sacred-gold); }
+
+/* Sections */
+.section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 100px 24px;
+    contain: layout paint;
+}
+.section-marker {
+    text-align: center;
+    font-family: var(--font-mystical);
+    font-weight: 500;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: var(--sacred-gold);
+    margin-bottom: 20px;
+}
+.section-marker::before, .section-marker::after {
+    content: '❋';
+    color: var(--rose-mist);
+    margin: 0 15px;
+    opacity: 0.7;
+}
+.section-title {
+    text-align: center;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(2.3rem, 5vw, 3.6rem);
+    margin-bottom: 25px;
+    line-height: 1.2;
+    background: linear-gradient(135deg, var(--pearl-cream), var(--sacred-gold), var(--rose-mist));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-desc {
+    text-align: center;
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: rgba(255, 248, 231, 0.75);
+    font-size: 1.15rem;
+    max-width: 620px;
+    margin: 0 auto 50px;
+    line-height: 1.8;
+    font-weight: 300;
+}
+.section-desc em { color: var(--sacred-gold); }
+
+/* ═══════════════════════════════════════════════
+   FEATURE 1: THE MEMORY FILMSTRIP (Cinema reel)
+   ═══════════════════════════════════════════════ */
+.filmstrip-container {
+    position: relative;
+    width: 100%;
+    padding: 40px 0;
+    background: linear-gradient(180deg, transparent, rgba(214, 51, 132, 0.08), transparent);
+    overflow: hidden;
+    border-top: 3px solid var(--sacred-gold);
+    border-bottom: 3px solid var(--sacred-gold);
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.25);
+}
+.filmstrip-track {
+    display: flex;
+    gap: 20px;
+    animation: filmstrip-scroll 60s linear infinite;
+    padding: 0 20px;
+    will-change: transform;
+}
+.filmstrip-container:hover .filmstrip-track {
+    animation-play-state: paused;
+}
+@keyframes filmstrip-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+.filmstrip-frame {
+    flex-shrink: 0;
+    width: 180px;
+    height: 240px;
+    background: #000;
+    border: 4px solid #1a1a1a;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+.filmstrip-frame::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: repeating-linear-gradient(90deg, #000 0, #000 8px, #333 8px, #333 16px);
+}
+.filmstrip-frame::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 8px;
+    background: repeating-linear-gradient(90deg, #000 0, #000 8px, #333 8px, #333 16px);
+}
+.filmstrip-frame:hover {
+    transform: scale(1.08);
+    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
+    z-index: 5;
+}
+.filmstrip-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(0.15) contrast(1.05) brightness(0.95);
+    transition: filter 0.3s;
+}
+.filmstrip-frame:hover img { filter: sepia(0) contrast(1.1) brightness(1); }
+
+/* ═══════════════════════════════════════════════
+   FEATURE 2: GRAVITATIONAL PHOTO GALAXY (3D orbit)
+   ═══════════════════════════════════════════════ */
+.galaxy-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    perspective: 1400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: radial-gradient(ellipse at center, rgba(74, 26, 110, 0.3), transparent 70%);
+    border-radius: 30px;
+    contain: strict;
+}
+.galaxy-sphere {
+    position: relative;
+    width: 350px;
+    height: 350px;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+.galaxy-sun {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, var(--sacred-gold), var(--molten-red));
+    border-radius: 50%;
+    box-shadow: 0 0 60px var(--sacred-gold), 0 0 120px var(--molten-red);
+    animation: sun-pulse 3s ease-in-out infinite;
+    z-index: 10;
+}
+@keyframes sun-pulse {
+    0%,100% { box-shadow: 0 0 60px var(--sacred-gold), 0 0 120px var(--molten-red); }
+    50% { box-shadow: 0 0 80px var(--sacred-gold), 0 0 150px var(--molten-red); }
+}
+.galaxy-planet {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 70px; height: 70px;
+    margin: -35px 0 0 -35px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--sacred-gold);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    cursor: pointer;
+    transition: box-shadow 0.3s;
+}
+.galaxy-planet:hover {
+    box-shadow: 0 0 40px var(--rose-mist), 0 0 60px var(--sacred-gold);
+}
+.galaxy-planet img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+}
+.galaxy-hint {
+    position: absolute;
+    bottom: 20px; left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-modern);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    color: rgba(255, 215, 0, 0.6);
+    text-align: center;
+}
+
+/* ═══════════════════════════════════════════════
+   FEATURE 3: POLAROID SHUFFLE DECK
+   ═══════════════════════════════════════════════ */
+.deck-container {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+    contain: layout paint;
+}
+.polaroid-card {
+    position: absolute;
+    width: 280px;
+    height: 340px;
+    background: #fefefe;
+    padding: 15px 15px 50px;
+    border-radius: 3px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s;
+    cursor: grab;
+    transform-style: preserve-3d;
+}
+.polaroid-card:active { cursor: grabbing; }
+.polaroid-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #eee;
+}
+.polaroid-card::after {
+    content: attr(data-caption);
+    position: absolute;
+    bottom: 12px; left: 0; right: 0;
+    text-align: center;
+    font-family: var(--font-hand);
+    font-size: 1.1rem;
+    color: #444;
+}
+.deck-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 20;
+}
+.deck-btn {
+    padding: 12px 24px;
+    background: rgba(255, 215, 0, 0.12);
+    border: 1px solid var(--sacred-gold);
+    color: var(--sacred-gold);
+    font-family: var(--font-modern);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+.deck-btn:hover {
+    background: var(--sacred-gold);
+    color: var(--void);
+    box-shadow: 0 0 20px var(--sacred-gold);
+}
+
+/* ═══════════════════════════════════════════════
+   FEATURE 4: LIQUID MERCURY GALLERY (Bento wall)
+   ═══════════════════════════════════════════════ */
+.mosaic-wall {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 180px;
+    gap: 12px;
+}
+.mosaic-tile {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.mosaic-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s, filter 0.4s;
+    filter: brightness(0.85) contrast(1.05);
+}
+.mosaic-tile::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(214, 51, 132, 0.2), transparent, rgba(255, 215, 0, 0.15));
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+}
+.mosaic-tile:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
+    z-index: 5;
+}
+.mosaic-tile:hover img { transform: scale(1.1); filter: brightness(1.05) contrast(1.1); }
+.mosaic-tile:hover::after { opacity: 1; }
+.mosaic-tile.wide { grid-column: span 2; }
+.mosaic-tile.tall { grid-row: span 2; }
+
+/* ═══════════════════════════════════════════════
+   FEATURE 5: MEMORY RADIO (Dial to tune memories)
+   ═══════════════════════════════════════════════ */
+.radio-container {
+    background: linear-gradient(135deg, rgba(30, 15, 61, 0.6), rgba(74, 26, 110, 0.4));
+    border: 1px solid rgba(255, 215, 0, 0.25);
+    border-radius: 24px;
+    padding: 50px 40px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    text-align: center;
+    contain: layout paint;
+}
+.radio-display {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 30px;
+    padding: 30px 20px;
+    background: linear-gradient(180deg, #000, #1a1a2e);
+    border: 3px solid var(--sacred-gold);
+    border-radius: 16px;
+    box-shadow: inset 0 0 30px rgba(255, 215, 0, 0.15);
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+.radio-photo {
+    max-width: 100%;
+    max-height: 250px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    filter: sepia(0.15) contrast(1.05);
+    transition: opacity 0.5s;
+}
+.radio-frequency {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    font-family: var(--font-modern);
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    color: var(--sacred-gold);
+    opacity: 0.7;
+}
+.radio-dial-wrap {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 20px;
+}
+.radio-dial {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: 
+        radial-gradient(circle at 30% 30%, #444, #1a1a2e),
+        conic-gradient(from 0deg, var(--sacred-gold), var(--molten-red), var(--nebula-purple), var(--sacred-gold));
+    border: 4px solid var(--sacred-gold);
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.4), inset 0 0 30px rgba(0,0,0,0.6);
+    cursor: pointer;
+    position: relative;
+    touch-action: none;
+    user-select: none;
+}
+.radio-pointer {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 30px;
+    background: linear-gradient(180deg, var(--sacred-gold), var(--molten-red));
+    border-radius: 3px;
+    box-shadow: 0 0 15px var(--sacred-gold);
+    pointer-events: none;
+}
+.radio-hint {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: rgba(255, 248, 231, 0.7);
+    font-size: 1.05rem;
+    margin-top: 10px;
+}
+
+/* ═══════════════════════════════════════════════
+   FEATURE 6: THE FINAL LETTER
+   ═══════════════════════════════════════════════ */
+.final-letter-container {
+    position: relative;
+    padding: 80px 60px;
+    background: 
+        linear-gradient(135deg, rgba(10, 10, 26, 0.9), rgba(30, 15, 61, 0.9)),
+        radial-gradient(ellipse at top, rgba(255, 215, 0, 0.1), transparent);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 6px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+    overflow: hidden;
+    contain: layout paint;
+}
+.final-letter-container::before,
+.final-letter-container::after {
+    content: '';
+    position: absolute;
+    left: 30px; right: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--sacred-gold), transparent);
+    opacity: 0.7;
+}
+.final-letter-container::before { top: 20px; }
+.final-letter-container::after { bottom: 20px; }
+#letter-glow {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+.final-letter-inner { position: relative; z-index: 1; }
+.final-letter-date {
+    font-family: var(--font-modern);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: var(--sacred-gold);
+    text-align: right;
+    margin-bottom: 40px;
+}
+.final-letter-greeting {
+    font-family: var(--font-hand);
+    font-size: 3rem;
+    background: linear-gradient(135deg, var(--sacred-gold), var(--rose-mist));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 40px;
+}
+.final-p {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    line-height: 2.1;
+    color: rgba(255, 248, 231, 0.95);
+    margin-bottom: 26px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.5s ease, transform 1.5s ease;
+}
+.final-p.visible { opacity: 1; transform: translateY(0); }
+.final-p em {
+    background: linear-gradient(135deg, var(--sacred-gold), var(--rose-mist));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-style: italic;
+    font-weight: 500;
+}
+.final-p strong { color: var(--iridescent-pink); font-weight: 500; font-style: italic; }
+.final-letter-signature {
+    font-family: var(--font-hand);
+    font-size: 3.5rem;
+    background: linear-gradient(135deg, var(--sacred-gold), var(--amber-glow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: right;
+    margin-top: 50px;
+}
+.final-line {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+    text-align: center;
+    margin: 60px 0 20px;
+    line-height: 1.5;
+    padding: 45px 20px;
+    border-top: 1px solid rgba(255, 215, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.4);
+    background: linear-gradient(135deg, var(--sacred-gold), var(--rose-mist), var(--iridescent-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+.final-line.visible { opacity: 1; }
+
+/* ═══════════════════════════════════════════════
+   FEATURE 7: GRAND FINALE (Fireworks + Signature)
+   ═══════════════════════════════════════════════ */
+.finale-container {
+    position: relative;
+    text-align: center;
+    padding: 80px 20px;
+    min-height: 500px;
+    overflow: hidden;
+    border-radius: 30px;
+    background: radial-gradient(ellipse at center, rgba(214, 51, 132, 0.15), transparent 70%);
+    contain: strict;
+}
+#fireworks-canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+.finale-content { position: relative; z-index: 1; }
+.finale-title {
+    font-family: var(--font-hand);
+    font-size: clamp(3rem, 8vw, 5rem);
+    background: linear-gradient(135deg, var(--sacred-gold), var(--amber-glow), var(--rose-mist));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 30px;
+    line-height: 1.2;
+}
+.finale-quote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    color: rgba(255, 248, 231, 0.9);
+    max-width: 700px;
+    margin: 0 auto 40px;
+    line-height: 1.9;
+}
+.finale-quote em { color: var(--sacred-gold); }
+.finale-sig {
+    font-family: var(--font-hand);
+    font-size: 2rem;
+    color: var(--rose-mist);
+    margin-top: 30px;
+}
+
+/* Nav */
+.floating-nav {
+    position: fixed; top: 20px; left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 10, 26, 0.75);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 215, 0, 0.25);
+    border-radius: 50px;
+    padding: 11px 22px;
+    display: flex; gap: 14px;
+    z-index: 9000;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+.nav-link {
+    color: var(--pearl-cream); text-decoration: none;
+    font-family: var(--font-modern);
+    font-weight: 500; font-size: 0.72rem;
+    letter-spacing: 2px; text-transform: uppercase;
+    transition: 0.3s; white-space: nowrap;
+    opacity: 0.65;
+}
+.nav-link:hover, .nav-link.active {
+    color: var(--sacred-gold);
+    opacity: 1;
+}
+
+/* Music */
+.music-player {
+    position: fixed; bottom: 20px; left: 20px;
+    z-index: 9000;
+    background: rgba(10, 10, 26, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 50px;
+    padding: 9px 14px 9px 9px;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+.play-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--sacred-gold), var(--amber-glow));
+    border: none; color: var(--void);
+    font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: 0.3s;
+}
+.play-btn:hover { transform: scale(1.08); }
+.music-title {
+    font-family: var(--font-modern);
+    font-size: 0.72rem; font-weight: 600;
+    color: var(--pearl-cream); letter-spacing: 2px;
+}
+
+/* Lightbox */
+.lightbox {
+    position: fixed; inset: 0; z-index: 99999;
+    background: rgba(0,0,0,0.95);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 40px;
+    opacity: 0; transition: opacity 0.4s;
+}
+.lightbox.active { display: flex; opacity: 1; }
+.lightbox img {
+    max-width: 90%;
+    max-height: 85vh;
+    border-radius: 12px;
+    box-shadow: 0 30px 80px rgba(255, 215, 0, 0.4);
+}
+.lightbox-close {
+    position: absolute;
+    top: 25px; right: 30px;
+    background: transparent;
+    border: none;
+    color: var(--sacred-gold);
+    font-size: 40px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .floating-nav { width: 94%; justify-content: center; gap: 8px; padding: 9px 10px; }
+    .nav-link { font-size: 0.58rem; letter-spacing: 1px; }
+    .section { padding: 70px 18px; }
+    .final-letter-container { padding: 40px 22px; }
+    .final-letter-greeting { font-size: 2.2rem; }
+    .final-p { font-size: 1.05rem; line-height: 1.9; }
+    .filmstrip-frame { width: 140px; height: 190px; }
+    .galaxy-container { height: 450px; }
+    .galaxy-sphere { transform: scale(0.75); }
+    .mosaic-wall { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 140px; }
+    .polaroid-card { width: 240px; height: 300px; }
+    .deck-container { height: 450px; }
+    .radio-display { min-height: 260px; padding: 20px 15px; }
+    .radio-photo { max-height: 200px; }
+    .radio-dial-wrap { width: 160px; height: 160px; }
+}
+</style>
+</head>
+<body>
+
+<div id="cosmic-bg"></div>
+<canvas id="stars-canvas"></canvas>
+<canvas id="dust-canvas"></canvas>
+<div class="grain"></div>
+
+<div id="intro-screen">
+    <div class="curtain-left"></div>
+    <div class="curtain-right"></div>
+    <div class="intro-content">
+        <div class="intro-badge">The Finale · Chapter Seven</div>
+        <h1 class="intro-title">Our Forever<br>Begins Here.</h1>
+        <p class="intro-tagline">"Seven months. One love. Infinite tomorrows."</p>
+    </div>
+</div>
+
+<div id="content">
+    <nav class="floating-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="index2.html" class="nav-link">Ch2</a>
+        <a href="index3.html" class="nav-link">Ch3</a>
+        <a href="index4.html" class="nav-link">Ch4</a>
+        <a href="index5.html" class="nav-link">Ch5</a>
+        <a href="index6.html" class="nav-link">Ch6</a>
+        <a href="#" class="nav-link active">Ch7</a>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-preamble">Chapter Seven · The Eternal</div>
+        <h1 class="hero-title">The Beginning<br>of <em>Forever</em></h1>
+        <p class="hero-poem">
+            "This is not the ending.<br>
+            This is the <em>opening credits</em> —<br>
+            the moment before the greatest story ever told<br>
+            finally begins to write itself in <em>real time</em>."
+        </p>
+    </section>
+
+    <!-- FILMSTRIP -->
+    <section class="section">
+        <div class="section-marker">Reel One</div>
+        <h2 class="section-title">The Memory Filmstrip</h2>
+        <p class="section-desc">Every frame, a heartbeat. Every second, a story. Watch us <em>play back</em> across time.</p>
+    </section>
+    <div class="filmstrip-container">
+        <div class="filmstrip-track" id="filmstrip-track"></div>
+    </div>
+
+    <!-- GRAVITATIONAL GALAXY -->
+    <section class="section">
+        <div class="section-marker">Reel Two</div>
+        <h2 class="section-title">Our Personal Galaxy</h2>
+        <p class="section-desc">Every memory is a planet in orbit around the sun of <em>us</em>. Drag to rotate the universe.</p>
+        
+        <div class="galaxy-container" id="galaxy-container">
+            <div class="galaxy-sphere" id="galaxy-sphere">
+                <div class="galaxy-sun"></div>
+            </div>
+            <div class="galaxy-hint">✦ Drag to rotate · Click a planet ✦</div>
+        </div>
+    </section>
+
+    <!-- POLAROID DECK -->
+    <section class="section">
+        <div class="section-marker">Reel Three</div>
+        <h2 class="section-title">The Deck of Us</h2>
+        <p class="section-desc">Every memory as a card. <em>Shuffle. Flip. Fall in love again.</em></p>
+        
+        <div class="deck-container" id="deck-container"></div>
+        <div style="text-align:center; margin-top: 30px;">
+            <button class="deck-btn" id="deck-next">Next Card →</button>
+        </div>
+    </section>
+
+    <!-- MOSAIC WALL -->
+    <section class="section">
+        <div class="section-marker">Reel Four</div>
+        <h2 class="section-title">The Mosaic of Moments</h2>
+        <p class="section-desc">Fights and laughs. Silences and songs. <em>All of it. All of us.</em></p>
+        
+        <div class="mosaic-wall" id="mosaic-wall"></div>
+    </section>
+
+    <!-- MEMORY RADIO -->
+    <section class="section">
+        <div class="section-marker">Reel Five</div>
+        <h2 class="section-title">Tune Into Us</h2>
+        <p class="section-desc">Turn the dial. Every frequency plays a different memory of ours.</p>
+        
+        <div class="radio-container">
+            <div class="radio-display">
+                <div class="radio-frequency" id="radio-freq">108.7 MHz</div>
+                <img class="radio-photo" id="radio-photo" src="20.jpg" alt="Memory" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 300 200%22><rect fill=%22%23333%22 width=%22300%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22%23ffd700%22>📻</text></svg>'">
+            </div>
+            <div class="radio-dial-wrap">
+                <div class="radio-dial" id="radio-dial">
+                    <div class="radio-pointer"></div>
+                </div>
+            </div>
+            <p class="radio-hint">↻ Drag the dial to tune</p>
+        </div>
+    </section>
+
+    <!-- FINAL LETTER -->
+    <section class="section">
+        <div class="section-marker">The Confession That Never Fades</div>
+        <h2 class="section-title">A Letter, For the Rest<br>of Our Lives.</h2>
+        
+        <div class="final-letter-container">
+            <canvas id="letter-glow"></canvas>
+            <div class="final-letter-inner">
+                <div class="final-letter-date">Written · The Seventh Month · Forever</div>
+                <div class="final-letter-greeting">My whole entire world,</div>
+                
+                <p class="final-p">Seven months ago, you were a stranger. A person the universe had not yet handed me. And then — like the world always had a plan I was not aware of — <em>there you were</em>. And nothing, not one single thing, has ever looked the same since.</p>
+                
+                <p class="final-p">I have thought a lot about what to say in this letter. About how to summarize seven months of laughter and fights and 3 a.m. talks and silences and the way you look when you are trying not to cry and the way you look when you finally do. I have tried to write this a thousand times in my head. And I have realized: <em>there is no way to summarize you.</em> You are not summarizable. You are the whole book.</p>
+                
+                <p class="final-p">Do you remember the fights? The stupid ones. The ones where we both went to bed angry and neither of us could sleep because being upset with you feels like being upset with my own heartbeat. Do you remember the good ones — the ones that ended in laughing at how ridiculous we both were? <strong>Every fight was a proof</strong>. Proof that we cared enough to argue. Proof that we were real enough to disagree. Proof that even at our worst, we were still <em>ours</em>.</p>
+                
+                <p class="final-p">Do you remember the silence? That month. That long, hollow month. I remember it like an ache that has now healed into gold. I remember it because it taught me the most important thing I will ever know: <em>you are not someone I want. You are someone I need.</em> The way lungs need air. The way stars need the dark to be seen. That kind of need. The kind that is not weakness — it is truth.</p>
+                
+                <p class="final-p">And do you remember the tiny things? The way you send me songs at 2 a.m. because they made you think of us. The way you get quiet when you are overwhelmed but still choose to be quiet <em>next to me</em>. The way your laugh cracks in the middle when something is really funny. The way you say my name — like it is a small prayer, and I am somehow worthy of being prayed for. <strong>Those are the things I would trade the whole universe to keep.</strong></p>
+                
+                <p class="final-p">I want you to know: I have looked at every photo of us on this page. And I have realized that <em>I have never seen a version of you I did not love</em>. Not the smiling one. Not the crying one. Not the tired one. Not the fighting one. Not the sleeping one. Not the version I have not met yet — the older you, the wiser you, the you who will one day have gray hair and hold my hand and tell me you still choose me. I love her already. I love all of them. <em>I love every you there is going to be.</em></p>
+                
+                <p class="final-p">So here is what I promise you in the eighth month, and the ninth, and the twelfth, and the fiftieth. Here is what I promise you in every year we have not lived yet: <em>I will show up. I will stay soft with you even when the world is not. I will keep choosing you the way you chose me back — daily, deliberately, and without regret.</em> I will love you the way you deserve to be loved — <strong>which is loudly, patiently, and forever</strong>.</p>
+                
+                <p class="final-p">Picu. My Picu. I do not know what the next chapter looks like. I do not know what the next fight will be about, or the next inside joke, or the next photo we will take together and forget the story behind. But I know this: <em>whatever it is, whatever it looks like, whatever it costs — I want it with you.</em> Every version. Every weather. Every everything.</p>
+                
+                <div class="final-letter-signature">— Baby, always.</div>
+                
+                <div class="final-line">
+                    "If seven months has felt this much like <em>forever</em> —<br>
+                    I cannot wait to see what <em>forever itself</em> feels like<br>
+                    when I spend it all with you."
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GRAND FINALE -->
+    <section class="section">
+        <div class="finale-container">
+            <canvas id="fireworks-canvas"></canvas>
+            <div class="finale-content">
+                <div class="section-marker">The End · The Beginning</div>
+                <h1 class="finale-title">Happy 7 Months,<br>My Everything.</h1>
+                <p class="finale-quote">
+                    "You are the reason the story is worth telling.<br>
+                    You are the ink, the page, the hand that turns it.<br>
+                    <em>You are the whole entire book — and I am so grateful<br>
+                    to be one of its pages.</em>"
+                </p>
+                <p class="finale-sig">— Yours, in this life and every next one 💫</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="music-player">
+    <button class="play-btn" id="play-btn">▶</button>
+    <div class="music-title">CHAPTER 7 · FINALE</div>
+</div>
+
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close">✕</button>
+    <img id="lightbox-img" src="" alt="">
+</div>
+
+<audio id="bg-music" loop preload="auto"><source src="7.mp3" type="audio/mpeg"></audio>
+
+<script>
+if (localStorage.getItem('love_story_auth_final_v3') !== 'true') {
+    window.location.href = 'index.html';
+}
+
+// ═══════════════════════════════════════════════
+// PHOTO CONFIG — 20.jpg to 35.jpg (16 photos total)
+// Change this range if you have more/fewer photos!
+// ═══════════════════════════════════════════════
+const PHOTOS = [];
+for (let i = 20; i <= 35; i++) PHOTOS.push(i + '.jpg');
+
+const SVG_FALLBACK = 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 300 300%22><rect fill=%22%231e0f3d%22 width=%22300%22 height=%22300%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2260%22 fill=%22%23ffd700%22>💕</text></svg>';
+
+// ═══════════════════════════════════════════════
+// UNIFIED RENDER SYSTEM
+// ═══════════════════════════════════════════════
+const RENDER_QUEUE = new Set();
+let lastFrameTime = 0;
+const FRAME_INTERVAL = 1000 / 30; // 30fps cap
+
+function masterRender(timestamp) {
+    if (timestamp - lastFrameTime >= FRAME_INTERVAL) {
+        lastFrameTime = timestamp;
+        RENDER_QUEUE.forEach(fn => fn(timestamp));
+    }
+    requestAnimationFrame(masterRender);
+}
+
+function addRender(fn) { RENDER_QUEUE.add(fn); }
+function removeRender(fn) { RENDER_QUEUE.delete(fn); }
+
+function observeCanvas(canvas, renderFn) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) addRender(renderFn);
+            else removeRender(renderFn);
+        });
+    }, { threshold: 0.01 });
+    observer.observe(canvas);
+}
+
+// ═══════════════════════════════════════════════
+// INTRO SEQUENCE
+// ═══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+    const intro = document.getElementById('intro-screen');
+    const content = document.getElementById('content');
+    
+    setTimeout(() => intro.classList.add('open'), 800);
+    setTimeout(() => {
+        intro.style.opacity = '0';
+        setTimeout(() => {
+            intro.style.display = 'none';
+            content.style.display = 'block';
+            initAll();
+        }, 2500);
+    }, 5500);
+});
+
+// ═══════════════════════════════════════════════
+// STATIC STARS (drawn once)
+// ═══════════════════════════════════════════════
+function drawStars() {
+    const canvas = document.getElementById('stars-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    for (let i = 0; i < 150; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const r = Math.random() * 1.2 + 0.3;
+        const alpha = Math.random() * 0.7 + 0.3;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 248, 231, ${alpha})`;
+        ctx.fill();
+    }
+    
+    // Larger sparkles with gold tint
+    for (let i = 0; i < 30; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const r = Math.random() * 1.8 + 1;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 215, 0, ${0.6 + Math.random() * 0.4})`;
+        ctx.fill();
+    }
+}
+
+// ═══════════════════════════════════════════════
+// COSMIC DUST (animated, lightweight)
+// ═══════════════════════════════════════════════
+function initDust() {
+    const canvas = document.getElementById('dust-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }, 150);
+    });
+    
+    const particles = Array.from({ length: 40 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.2 + 0.4,
+        vy: -Math.random() * 0.25 - 0.05,
+        vx: (Math.random() - 0.5) * 0.15,
+        alpha: Math.random() * 0.6 + 0.3,
+        hue: Math.random() < 0.5 ? 45 : 320 // gold or pink
+    }));
+    
+    function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `hsla(${p.hue}, 90%, 70%, ${p.alpha})`;
+            ctx.fill();
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.y < -5) { p.y = canvas.height + 5; p.x = Math.random() * canvas.width; }
+            if (p.x < 0) p.x = canvas.width;
+            if (p.x > canvas.width) p.x = 0;
+        });
+    }
+    addRender(render);
+}
+
+// ═══════════════════════════════════════════════
+// INIT ALL
+// ═══════════════════════════════════════════════
+function initAll() {
+    drawStars();
+    window.addEventListener('resize', () => {
+        clearTimeout(window._starResize);
+        window._starResize = setTimeout(drawStars, 200);
+    });
+    
+    initDust();
+    initMusic();
+    initFilmstrip();
+    initGalaxy();
+    initPolaroidDeck();
+    initMosaicWall();
+    initRadio();
+    initFinalLetter();
+    initLightbox();
+    initFireworks();
+    
+    requestAnimationFrame(masterRender);
+}
+
+// ═══════════════════════════════════════════════
+// MUSIC
+// ═══════════════════════════════════════════════
+function initMusic() {
+    const audio = document.getElementById('bg-music');
+    const btn = document.getElementById('play-btn');
+    let isP = false;
+    audio.volume = 0.45;
+    
+    function toggle() {
+        if (isP) { audio.pause(); btn.textContent = '▶'; }
+        else { audio.play(); btn.textContent = '⏸'; }
+        isP = !isP;
+    }
+    btn.addEventListener('click', toggle);
+    
+    setTimeout(() => {
+        audio.play().then(() => { isP = true; btn.textContent = '⏸'; }).catch(() => {
+            document.addEventListener('click', function h() {
+                audio.play().then(() => { isP = true; btn.textContent = '⏸'; }).catch(() => {});
+                document.removeEventListener('click', h);
+            }, { once: true });
+        });
+    }, 300);
+}
+
+// ═══════════════════════════════════════════════
+// FEATURE 1: FILMSTRIP
+// ═══════════════════════════════════════════════
+function initFilmstrip() {
+    const track = document.getElementById('filmstrip-track');
+    // Duplicate photos twice for seamless loop
+    [...PHOTOS, ...PHOTOS].forEach(src => {
+        const frame = document.createElement('div');
+        frame.className = 'filmstrip-frame';
+        frame.innerHTML = `<img src="${src}" alt="Memory" onerror="this.src='${SVG_FALLBACK}'">`;
+        frame.addEventListener('click', () => openLightbox(src));
+        track.appendChild(frame);
+    });
+}
+
+// ═══════════════════════════════════════════════
+// FEATURE 2: GRAVITATIONAL GALAXY
+// ═══════════════════════════════════════════════
+function initGalaxy() {
+    const sphere = document.getElementById('galaxy-sphere');
+    const container = document.getElementById('galaxy-container');
+    const radius = window.innerWidth < 768 ? 140 : 180;
+    
+    // Fibonacci sphere distribution
+    PHOTOS.forEach((src, i) => {
+        const phi = Math.acos(-1 + (2 * i) / PHOTOS.length);
+        const theta = Math.sqrt(PHOTOS.length * Math.PI) * phi;
+        const x = radius * Math.cos(theta) * Math.sin(phi);
+        const y = radius * Math.sin(theta) * Math.sin(phi);
+        const z = radius * Math.cos(phi);
+        
+        const planet = document.createElement('div');
+        planet.className = 'galaxy-planet';
+        planet.innerHTML = `<img src="${src}" alt="Memory" onerror="this.src='${SVG_FALLBACK}'">`;
+        planet.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
+        planet.addEventListener('click', () => openLightbox(src));
+        sphere.appendChild(planet);
+    });
+    
+    let rotX = 0, rotY = 0;
+    let isDragging = false;
+    let lastX, lastY;
+    let autoSpin = true;
+    
+    function update() {
+        sphere.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    }
+    
+    function tick() {
+        if (autoSpin && !isDragging) {
+            rotY += 0.2;
+            update();
+        }
+    }
+    
+    observeCanvas(container, tick);
+    
+    // Manual rotation
+    function startDrag(x, y) {
+        isDragging = true;
+        lastX = x; lastY = y;
+        autoSpin = false;
+    }
+    function drag(x, y) {
+        if (!isDragging) return;
+        rotY += (x - lastX) * 0.4;
+        rotX -= (y - lastY) * 0.4;
+        update();
+        lastX = x; lastY = y;
+    }
+    function endDrag() {
+        isDragging = false;
+        setTimeout(() => autoSpin = true, 2000);
+    }
+    
+    container.addEventListener('mousedown', e => startDrag(e.clientX, e.clientY));
+    window.addEventListener('mousemove', e => drag(e.clientX, e.clientY));
+    window.addEventListener('mouseup', endDrag);
+    
+    container.addEventListener('touchstart', e => startDrag(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+    window.addEventListener('touchmove', e => drag(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+    window.addEventListener('touchend', endDrag);
+}
+
+// ═══════════════════════════════════════════════
+// FEATURE 3: POLAROID DECK
+// ═══════════════════════════════════════════════
+function initPolaroidDeck() {
+    const container = document.getElementById('deck-container');
+    const captions = [
+        "us, always", "my favorite view", "that day", "little moment",
+        "unforgettable", "the beginning", "us being us", "pure magic",
+        "forever", "my heart", "you & me", "that smile",
+        "always yours", "one of many", "endless", "my everything"
+    ];
+    
+    let currentTop = 0;
+    
+    PHOTOS.forEach((src, i) => {
+        const card = document.createElement('div');
+        card.className = 'polaroid-card';
+        card.dataset.caption = captions[i % captions.length];
+        card.dataset.index = i;
+        card.innerHTML = `<img src="${src}" alt="Memory" onerror="this.src='${SVG_FALLBACK}'">`;
+        container.appendChild(card);
+    });
+    
+    function updateDeck() {
+        const cards = container.querySelectorAll('.polaroid-card');
+        cards.forEach((card, i) => {
+            const offset = (i - currentTop + PHOTOS.length) % PHOTOS.length;
+            if (offset >= 5) {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(500px) scale(0.5)';
+                card.style.zIndex = '-1';
+                return;
+            }
+            const rotate = (offset - 2) * 4;
+            const translateX = (offset - 2) * 10;
+            const translateY = offset * 8;
+            const scale = 1 - offset * 0.05;
+            const zIndex = 10 - offset;
+            card.style.opacity = '1';
+            card.style.transform = `translateX(${translateX}px) translateY(${translateY}px) rotate(${rotate}deg) scale(${scale})`;
+            card.style.zIndex = zIndex;
+        });
+    }
+    
+    updateDeck();
+    
+    // Click to flip through
+    container.addEventListener('click', (e) => {
+        const card = e.target.closest('.polaroid-card');
+        if (!card) return;
+        currentTop = (currentTop + 1) % PHOTOS.length;
+        updateDeck();
+    });
+    
+    document.getElementById('deck-next').addEventListener('click', () => {
+        currentTop = (currentTop + 1) % PHOTOS.length;
+        updateDeck();
+    });
+}
+
+// ═══════════════════════════════════════════════
+// FEATURE 4: MOSAIC WALL
+// ═══════════════════════════════════════════════
+function initMosaicWall() {
+    const wall = document.getElementById('mosaic-wall');
+    const layoutPattern = ['tall', '', 'wide', '', '', 'tall', '', 'wide', 'wide', '', 'tall', '', '', 'wide', '', 'tall'];
+    
+    PHOTOS.forEach((src, i) => {
+        const tile = document.createElement('div');
+        tile.className = 'mosaic-tile ' + (layoutPattern[i] || '');
+        tile.innerHTML = `<img src="${src}" alt="Memory" onerror="this.src='${SVG_FALLBACK}'">`;
+        tile.addEventListener('click', () => openLightbox(src));
+        wall.appendChild(tile);
+    });
+}
+
+// ═══════════════════════════════════════════════
+// FEATURE 5: MEMORY RADIO
+// ═══════════════════════════════════════════════
+function initRadio() {
+    const dial = document.getElementById('radio-dial');
+    const photoEl = document.getElementById('radio-photo');
+    const freqEl = document.getElementById('radio-freq');
+    let angle = 0;
+    let isRotating = false;
+    let lastAngle = 0;
+    let currentPhoto = 0;
+    
+    function updatePhoto() {
+        const idx = Math.floor(((angle % 360 + 360) % 360) / 360 * PHOTOS.length) % PHOTOS.length;
+        if (idx !== currentPhoto) {
+            currentPhoto = idx;
+            photoEl.style.opacity = '0';
+            setTimeout(() => {
+                photoEl.src = PHOTOS[idx];
+                photoEl.style.opacity = '1';
+                const freq = (88 + idx * 2.3).toFixed(1);
+                freqEl.textContent = `${freq} MHz`;
+            }, 250);
+        }
+    }
+    
+    function getAngle(clientX, clientY) {
+        const rect = dial.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        return Math.atan2(clientY - cy, clientX - cx) * 180 / Math.PI;
+    }
+    
+    dial.addEventListener('mousedown', (e) => {
+        isRotating = true;
+        lastAngle = getAngle(e.clientX, e.clientY);
+    });
+    
+    window.addEventListener('mousemove', (e) => {
+        if (!isRotating) return;
+        const currentAngle = getAngle(e.clientX, e.clientY);
+        const delta = currentAngle - lastAngle;
+        angle += delta;
+        dial.style.transform = `rotate(${angle}deg)`;
+        lastAngle = currentAngle;
+        updatePhoto();
+    });
+    
+    window.addEventListener('mouseup', () => isRotating = false);
+    
+    dial.addEventListener('touchstart', (e) => {
+        isRotating = true;
+        lastAngle = getAngle(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+    
+    window.addEventListener('touchmove', (e) => {
+        if (!isRotating) return;
+        const currentAngle = getAngle(e.touches[0].clientX, e.touches[0].clientY);
+        const delta = currentAngle - lastAngle;
+        angle += delta;
+        dial.style.transform = `rotate(${angle}deg)`;
+        lastAngle = currentAngle;
+        updatePhoto();
+    }, { passive: true });
+    
+    window.addEventListener('touchend', () => isRotating = false);
+}
+
+// ═══════════════════════════════════════════════
+// FEATURE 6: FINAL LETTER (glow + fade paragraphs)
+// ═══════════════════════════════════════════════
+function initFinalLetter() {
+    const canvas = document.getElementById('letter-glow');
+    const ctx = canvas.getContext('2d');
+    
+    function resize() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 150);
+    });
+    
+    // Static gradient orbs pre-drawn once
+    function drawGlow() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < 4; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            const r = 150 + Math.random() * 150;
+            const grad = ctx.createRadialGradient(x, y, 0, x, y, r);
+            grad.addColorStop(0, `rgba(255, 215, 0, ${0.06 + Math.random() * 0.05})`);
+            grad.addColorStop(1, 'rgba(255, 215, 0, 0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(x - r, y - r, r * 2, r * 2);
+        }
+    }
+    drawGlow();
+    
+    // Fade paragraphs on scroll
+    const paras = document.querySelectorAll('.final-p');
+    const finalLine = document.querySelector('.final-line');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), 100);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    paras.forEach(p => observer.observe(p));
+    observer.observe(finalLine);
+}
+
+// ═══════════════════════════════════════════════
+// FEATURE 7: FIREWORKS
+// ═══════════════════════════════════════════════
+function initFireworks() {
+    const canvas = document.getElementById('fireworks-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    function resize() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 150);
+    });
+    
+    let particles = [];
+    const COLORS = ['#ffd700', '#ff6b6b', '#f0abfc', '#7dd3fc', '#fbcfe8', '#ffa94d'];
+    
+    function launch() {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height * 0.5;
+        const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        for (let i = 0; i < 25; i++) {
+            const angle = (Math.PI * 2 * i) / 25;
+            const speed = Math.random() * 3 + 1.5;
+            particles.push({
+                x, y,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                color, alpha: 1,
+                size: Math.random() * 2 + 1
+            });
+        }
+    }
+    
+    let launched = false;
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (!launched) {
+                    launched = true;
+                    setInterval(launch, 1500);
+                    launch();
+                    setTimeout(launch, 400);
+                    setTimeout(launch, 800);
+                }
+                addRender(render);
+            } else {
+                removeRender(render);
+            }
+        });
+    }, { threshold: 0.1 });
+    observer.observe(canvas);
+    
+    function render() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        particles = particles.filter(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.alpha;
+            ctx.fill();
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.04;
+            p.alpha -= 0.012;
+            return p.alpha > 0;
+        });
+        ctx.globalAlpha = 1;
+    }
+}
+
+// ═══════════════════════════════════════════════
+// LIGHTBOX
+// ═══════════════════════════════════════════════
+function initLightbox() {
+    const lb = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    const close = document.getElementById('lightbox-close');
+    
+    close.addEventListener('click', () => lb.classList.remove('active'));
+    lb.addEventListener('click', (e) => {
+        if (e.target === lb) lb.classList.remove('active');
+    });
+}
+
+function openLightbox(src) {
+    const lb = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    img.src = src;
+    lb.classList.add('active');
+}
+</script>
+</body>
+</html>

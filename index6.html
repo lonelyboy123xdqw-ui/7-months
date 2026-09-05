@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a1929">
+<title>Chapter 6: The Dream We Share 💤</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💤</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;1,400&family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Cinzel:wght@500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    /* AURORA GLASS PALETTE — Iridescent oil-slick colors */
+    --void: #050912;
+    --abyss: #0a1929;
+    --deep-teal: #0d3b4f;
+    --electric-indigo: #3d2a7d;
+    --royal-violet: #6a3ec9;
+    --rose-quartz: #f9a8d4;
+    --molten-copper: #ff8c69;
+    --mint-pearl: #a7f3d0;
+    --iridescent: #c4b5fd;
+    --cyan-glow: #67e8f9;
+    --champagne: #fde68a;
+    --pearl: #fefce8;
+    
+    --font-serif: 'Cormorant Garamond', serif;
+    --font-display: 'Playfair Display', serif;
+    --font-hand: 'Caveat', cursive;
+    --font-modern: 'Plus Jakarta Sans', sans-serif;
+    --font-mystical: 'Cinzel', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: var(--font-serif);
+    color: var(--pearl);
+    overflow-x: hidden;
+    background: var(--void);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeSpeed;
+    min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: var(--royal-violet); border-radius: 10px; }
+::selection { background: var(--royal-violet); color: var(--pearl); }
+
+/* GPU-friendly background — CSS gradient only, no animation */
+#dream-bg {
+    position: fixed; inset: 0; z-index: -5;
+    background: 
+        radial-gradient(ellipse at 20% 20%, rgba(106, 62, 201, 0.35) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(249, 168, 212, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 40%, rgba(103, 232, 249, 0.15) 0%, transparent 40%),
+        linear-gradient(180deg, var(--void) 0%, var(--abyss) 50%, var(--deep-teal) 100%);
+}
+
+/* Static nebula overlay (pre-rendered, no animation) */
+#nebula-canvas {
+    position: fixed; inset: 0; z-index: -4;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+/* Only ONE lightweight particle canvas */
+#particles-canvas {
+    position: fixed; inset: 0; z-index: -3;
+    pointer-events: none;
+}
+
+/* Simple noise overlay (no animation) */
+.grain {
+    position: fixed; inset: 0; z-index: 9998;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Intro */
+#sleep-intro {
+    position: fixed; inset: 0; z-index: 100000;
+    background: var(--void);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 20px;
+    transition: opacity 2s ease;
+}
+.eyelid {
+    position: absolute; left: 0; right: 0;
+    background: #000; z-index: 3;
+    transition: height 3s cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: height;
+}
+.eyelid-top { top: 0; height: 0; }
+.eyelid-bottom { bottom: 0; height: 0; }
+#sleep-intro.closing .eyelid-top,
+#sleep-intro.closing .eyelid-bottom { height: 50vh; }
+
+.intro-content { position: relative; z-index: 2; max-width: 900px; }
+.intro-line {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+    color: var(--pearl);
+    line-height: 1.6;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    margin-bottom: 20px;
+}
+.intro-line.show { opacity: 1; }
+.intro-line em { color: var(--rose-quartz); font-weight: 500; }
+.intro-final {
+    font-family: var(--font-hand);
+    font-size: clamp(2.8rem, 8vw, 5rem);
+    background: linear-gradient(135deg, var(--rose-quartz), var(--champagne), var(--mint-pearl));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+.intro-final.show { opacity: 1; }
+
+#content {
+    display: none;
+    padding-bottom: 100px;
+    position: relative; z-index: 1;
+}
+
+/* Hero */
+.hero-section {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 120px 20px 60px;
+}
+.hero-preamble {
+    font-family: var(--font-modern);
+    font-weight: 300;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: rgba(196, 181, 253, 0.7);
+    margin-bottom: 40px;
+}
+.hero-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    line-height: 1.05;
+    margin-bottom: 40px;
+    background: linear-gradient(135deg, var(--pearl), var(--rose-quartz), var(--iridescent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.hero-title em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--rose-quartz), var(--molten-copper));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.hero-poem {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+    color: rgba(254, 252, 232, 0.85);
+    max-width: 700px;
+    line-height: 2;
+    font-weight: 300;
+}
+.hero-poem em { color: var(--rose-quartz); }
+
+/* Sections */
+.section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 100px 24px;
+    contain: layout paint;
+}
+.section-marker {
+    text-align: center;
+    font-family: var(--font-mystical);
+    font-weight: 500;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: var(--rose-quartz);
+    margin-bottom: 20px;
+}
+.section-marker::before, .section-marker::after {
+    content: '✦';
+    color: var(--champagne);
+    margin: 0 12px;
+    opacity: 0.7;
+}
+.section-title {
+    text-align: center;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    margin-bottom: 25px;
+    line-height: 1.2;
+    background: linear-gradient(135deg, var(--pearl), var(--iridescent), var(--rose-quartz));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-desc {
+    text-align: center;
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: rgba(254, 252, 232, 0.75);
+    font-size: 1.15rem;
+    max-width: 620px;
+    margin: 0 auto 50px;
+    line-height: 1.8;
+    font-weight: 300;
+}
+.section-desc em { color: var(--rose-quartz); }
+
+/* Dream Doors */
+.dream-rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+}
+.dream-door {
+    position: relative;
+    height: 320px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(196, 181, 253, 0.2);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    contain: layout paint;
+}
+.dream-door::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(5, 9, 18, 0.85) 100%);
+    z-index: 2;
+}
+.dream-door canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+}
+.dream-door-content {
+    position: absolute;
+    bottom: 22px; left: 22px; right: 22px;
+    z-index: 3;
+}
+.dream-door-label {
+    font-family: var(--font-modern);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    color: var(--champagne);
+    margin-bottom: 6px;
+}
+.dream-door-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--pearl);
+    line-height: 1.2;
+}
+.dream-door:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(249, 168, 212, 0.3);
+}
+
+/* Modal */
+.dream-modal {
+    position: fixed; inset: 0; z-index: 99999;
+    background: rgba(5, 9, 18, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; transition: opacity 0.4s;
+}
+.dream-modal.active { display: flex; opacity: 1; }
+.dream-modal-content {
+    max-width: 650px;
+    background: linear-gradient(135deg, rgba(61, 42, 125, 0.5), rgba(13, 59, 79, 0.5));
+    border: 1px solid rgba(249, 168, 212, 0.3);
+    border-radius: 24px;
+    padding: 50px 40px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.dream-modal.active .dream-modal-content { transform: scale(1); }
+.dream-modal-icon {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+}
+.dream-modal-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 2rem;
+    background: linear-gradient(135deg, var(--rose-quartz), var(--champagne));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+}
+.dream-modal-text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--pearl);
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+.dream-modal-text em { color: var(--rose-quartz); font-weight: 500; }
+.dream-modal-close {
+    background: transparent;
+    border: 1px solid var(--rose-quartz);
+    color: var(--rose-quartz);
+    padding: 10px 26px;
+    border-radius: 30px;
+    font-family: var(--font-modern);
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.dream-modal-close:hover { background: var(--rose-quartz); color: var(--void); }
+
+/* Lucid Mixer */
+.lucid-container {
+    background: linear-gradient(135deg, rgba(61, 42, 125, 0.25), rgba(13, 59, 79, 0.25));
+    border: 1px solid rgba(196, 181, 253, 0.2);
+    border-radius: 24px;
+    padding: 40px 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    contain: layout paint;
+}
+.lucid-scene {
+    width: 100%;
+    height: 260px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    border: 1px solid rgba(249, 168, 212, 0.15);
+}
+#lucid-canvas { width: 100%; height: 100%; display: block; }
+.lucid-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 18px;
+}
+.lucid-control { text-align: center; }
+.lucid-control-label {
+    font-family: var(--font-modern);
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    color: var(--iridescent);
+    margin-bottom: 10px;
+}
+.lucid-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--royal-violet), var(--rose-quartz));
+    border-radius: 2px;
+    outline: none;
+}
+.lucid-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    background: var(--rose-quartz);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 12px var(--rose-quartz);
+}
+.lucid-slider::-moz-range-thumb {
+    width: 16px; height: 16px;
+    background: var(--rose-quartz);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+.lucid-value {
+    font-family: var(--font-modern);
+    color: var(--rose-quartz);
+    font-size: 0.85rem;
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+/* Storm Letter */
+.storm-letter-container {
+    position: relative;
+    padding: 70px 50px;
+    background: linear-gradient(135deg, rgba(5, 9, 18, 0.85), rgba(13, 59, 79, 0.85));
+    border: 1px solid rgba(249, 168, 212, 0.2);
+    border-radius: 4px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    overflow: hidden;
+    contain: layout paint;
+}
+.storm-letter-container::before,
+.storm-letter-container::after {
+    content: '';
+    position: absolute;
+    left: 30px; right: 30px;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, var(--rose-quartz), transparent);
+    opacity: 0.6;
+}
+.storm-letter-container::before { top: 20px; }
+.storm-letter-container::after { bottom: 20px; }
+#storm-canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    opacity: 0.3;
+    z-index: 0;
+}
+.storm-letter-inner { position: relative; z-index: 1; }
+.storm-letter-date {
+    font-family: var(--font-modern);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    color: var(--champagne);
+    text-align: right;
+    margin-bottom: 35px;
+}
+.storm-letter-greeting {
+    font-family: var(--font-hand);
+    font-size: 2.8rem;
+    color: var(--rose-quartz);
+    margin-bottom: 35px;
+}
+.storm-p {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    line-height: 2;
+    color: rgba(254, 252, 232, 0.95);
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 1.2s ease, transform 1.2s ease;
+}
+.storm-p.visible { opacity: 1; transform: translateY(0); }
+.storm-p em {
+    background: linear-gradient(135deg, var(--rose-quartz), var(--champagne));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-style: italic;
+    font-weight: 500;
+}
+.storm-p strong { color: var(--iridescent); font-weight: 500; font-style: italic; }
+.storm-letter-signature {
+    font-family: var(--font-hand);
+    font-size: 3.2rem;
+    background: linear-gradient(135deg, var(--rose-quartz), var(--champagne));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: right;
+    margin-top: 40px;
+}
+.storm-final-line {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.3rem, 3vw, 1.9rem);
+    text-align: center;
+    margin: 50px 0 15px;
+    line-height: 1.5;
+    padding: 35px 20px;
+    border-top: 1px solid rgba(249, 168, 212, 0.3);
+    border-bottom: 1px solid rgba(249, 168, 212, 0.3);
+    background: linear-gradient(135deg, var(--rose-quartz), var(--champagne), var(--iridescent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+.storm-final-line.visible { opacity: 1; }
+
+/* Fragments */
+.fragments-container {
+    position: relative;
+    width: 100%;
+    height: 460px;
+    background: linear-gradient(180deg, var(--abyss), var(--void));
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid rgba(249, 168, 212, 0.2);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    contain: strict;
+}
+#fragments-canvas {
+    width: 100%; height: 100%;
+    display: block;
+    cursor: crosshair;
+    touch-action: none;
+}
+.fragments-overlay {
+    position: absolute;
+    top: 18px; left: 18px; right: 18px;
+    display: flex; justify-content: space-between;
+    z-index: 2; pointer-events: none;
+}
+.fragments-stat {
+    background: rgba(5, 9, 18, 0.6);
+    border: 1px solid rgba(249, 168, 212, 0.3);
+    padding: 6px 14px;
+    border-radius: 18px;
+    font-family: var(--font-modern);
+    font-size: 0.75rem;
+    color: var(--rose-quartz);
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+.fragment-reveal {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(5, 9, 18, 0.92);
+    border: 1px solid var(--rose-quartz);
+    padding: 18px 28px;
+    border-radius: 18px;
+    max-width: 85%;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 3;
+}
+.fragment-reveal.show { opacity: 1; }
+.fragment-reveal-text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--rose-quartz);
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+/* Forever Clock */
+.forever-container {
+    background: linear-gradient(135deg, rgba(13, 59, 79, 0.4), rgba(61, 42, 125, 0.3));
+    border: 1px solid rgba(196, 181, 253, 0.25);
+    border-radius: 24px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    contain: layout paint;
+}
+.forever-clock {
+    width: 280px; height: 280px;
+    margin: 25px auto;
+    max-width: 90vw;
+}
+#forever-canvas {
+    width: 100%; height: 100%;
+    display: block;
+    cursor: pointer;
+    touch-action: none;
+}
+.forever-hint {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: rgba(254, 252, 232, 0.7);
+    font-size: 1.05rem;
+    margin-top: 18px;
+    min-height: 26px;
+}
+.forever-message {
+    font-family: var(--font-hand);
+    font-size: 1.4rem;
+    color: var(--champagne);
+    margin-top: 20px;
+    min-height: 36px;
+    opacity: 0;
+    transition: opacity 0.6s;
+}
+.forever-message.show { opacity: 1; }
+
+/* Wake */
+.wake-container {
+    text-align: center;
+    padding: 50px 40px;
+    background: linear-gradient(135deg, rgba(249, 168, 212, 0.06), rgba(253, 230, 138, 0.04));
+    border: 1px solid rgba(249, 168, 212, 0.25);
+    border-radius: 24px;
+    contain: layout paint;
+}
+.wake-title {
+    font-family: var(--font-hand);
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    background: linear-gradient(135deg, var(--rose-quartz), var(--champagne), var(--iridescent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 25px;
+    line-height: 1.4;
+}
+.wake-sig {
+    font-family: var(--font-hand);
+    color: var(--pearl);
+    font-size: 1.3rem;
+    opacity: 0.85;
+    margin-top: 20px;
+}
+
+/* Chapter 7 Portal */
+.next-chapter-section {
+    padding: 80px 20px 60px;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.chapter7-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 26px 50px;
+    background: linear-gradient(135deg, rgba(249, 168, 212, 0.12), rgba(196, 181, 253, 0.08));
+    border: 2px solid var(--rose-quartz);
+    color: var(--pearl);
+    font-family: var(--font-mystical);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 20px 50px rgba(249, 168, 212, 0.25);
+    transition: 0.4s;
+    border-radius: 4px;
+}
+.chapter7-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 60px rgba(249, 168, 212, 0.45);
+    color: #fff;
+    border-color: var(--champagne);
+}
+.chapter7-hint {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: rgba(254, 252, 232, 0.6);
+    font-size: 1.1rem;
+    margin-top: 22px;
+}
+
+/* Nav */
+.floating-nav {
+    position: fixed; top: 20px; left: 50%;
+    transform: translateX(-50%);
+    background: rgba(5, 9, 18, 0.75);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(249, 168, 212, 0.2);
+    border-radius: 50px;
+    padding: 11px 22px;
+    display: flex; gap: 16px;
+    z-index: 9000;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+.nav-link {
+    color: var(--pearl); text-decoration: none;
+    font-family: var(--font-modern);
+    font-weight: 500; font-size: 0.75rem;
+    letter-spacing: 2px; text-transform: uppercase;
+    transition: 0.3s; white-space: nowrap;
+    opacity: 0.65;
+}
+.nav-link:hover, .nav-link.active {
+    color: var(--rose-quartz);
+    opacity: 1;
+}
+
+/* Music */
+.music-player {
+    position: fixed; bottom: 20px; left: 20px;
+    z-index: 9000;
+    background: rgba(5, 9, 18, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(249, 168, 212, 0.25);
+    border-radius: 50px;
+    padding: 9px 14px 9px 9px;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+.play-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--rose-quartz), var(--champagne));
+    border: none; color: var(--void);
+    font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: 0.3s;
+}
+.play-btn:hover { transform: scale(1.08); }
+.music-title {
+    font-family: var(--font-modern);
+    font-size: 0.72rem; font-weight: 600;
+    color: var(--pearl); letter-spacing: 2px;
+}
+
+@media (max-width: 768px) {
+    .floating-nav { width: 94%; justify-content: center; gap: 9px; padding: 9px 11px; }
+    .nav-link { font-size: 0.6rem; letter-spacing: 1px; }
+    .section { padding: 70px 18px; }
+    .storm-letter-container { padding: 40px 22px; }
+    .storm-letter-greeting { font-size: 2rem; }
+    .storm-p { font-size: 1rem; line-height: 1.85; }
+    .dream-rooms-grid { grid-template-columns: 1fr; gap: 18px; }
+    .dream-door { height: 240px; }
+    .lucid-scene { height: 200px; }
+    .fragments-container { height: 380px; }
+    .forever-clock { width: 240px; height: 240px; }
+    .dream-modal-content { padding: 35px 22px; }
+    .dream-modal-title { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div id="dream-bg"></div>
+<canvas id="nebula-canvas"></canvas>
+<canvas id="particles-canvas"></canvas>
+<div class="grain"></div>
+
+<div id="sleep-intro">
+    <div class="eyelid eyelid-top"></div>
+    <div class="eyelid eyelid-bottom"></div>
+    <div class="intro-content">
+        <p class="intro-line" id="intro-1">Close your eyes.</p>
+        <p class="intro-line" id="intro-2">Let the world dissolve.</p>
+        <p class="intro-line" id="intro-3">I have <em>somewhere</em> to take you.</p>
+        <p class="intro-final" id="intro-final">Welcome to our dream. 💤</p>
+    </div>
+</div>
+
+<div id="content">
+    <nav class="floating-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="index2.html" class="nav-link">Ch2</a>
+        <a href="index3.html" class="nav-link">Ch3</a>
+        <a href="index4.html" class="nav-link">Ch4</a>
+        <a href="index5.html" class="nav-link">Ch5</a>
+        <a href="#" class="nav-link active">Ch6</a>
+        <a href="index7.html" class="nav-link">Ch7</a>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-preamble">Chapter Six · The Dreaming</div>
+        <h1 class="hero-title">The Dream<br>We <em>Share</em></h1>
+        <p class="hero-poem">
+            "Some loves are conversations.<br>
+            Ours is a <em>weather system</em> —<br>
+            a storm that learned to sing,<br>
+            a rain that fell only for us."
+        </p>
+    </section>
+
+    <section class="section">
+        <div class="section-marker">The Four Doorways</div>
+        <h2 class="section-title">Rooms in the House<br>We Haven't Built Yet.</h2>
+        <p class="section-desc">Every dream begins as a door. Push one open. Step into a version of our forever that already <em>lives inside my head</em>.</p>
+        
+        <div class="dream-rooms-grid">
+            <div class="dream-door" data-room="0">
+                <canvas class="door-canvas"></canvas>
+                <div class="dream-door-content">
+                    <div class="dream-door-label">Doorway I</div>
+                    <div class="dream-door-title">The Rainy Morning</div>
+                </div>
+            </div>
+            <div class="dream-door" data-room="1">
+                <canvas class="door-canvas"></canvas>
+                <div class="dream-door-content">
+                    <div class="dream-door-label">Doorway II</div>
+                    <div class="dream-door-title">The Kitchen at Midnight</div>
+                </div>
+            </div>
+            <div class="dream-door" data-room="2">
+                <canvas class="door-canvas"></canvas>
+                <div class="dream-door-content">
+                    <div class="dream-door-label">Doorway III</div>
+                    <div class="dream-door-title">The Ocean, One Day</div>
+                </div>
+            </div>
+            <div class="dream-door" data-room="3">
+                <canvas class="door-canvas"></canvas>
+                <div class="dream-door-content">
+                    <div class="dream-door-label">Doorway IV</div>
+                    <div class="dream-door-title">The Park Bench, Old</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-marker">Lucid Control</div>
+        <h2 class="section-title">Shape the Dream<br>With Your Own Hands.</h2>
+        <p class="section-desc">This is <em>your</em> dream too. Turn the weather. Bend the light. Watch the canvas respond to your fingertips.</p>
+        
+        <div class="lucid-container">
+            <div class="lucid-scene"><canvas id="lucid-canvas"></canvas></div>
+            <div class="lucid-controls">
+                <div class="lucid-control">
+                    <div class="lucid-control-label">Warmth</div>
+                    <input type="range" class="lucid-slider" id="ctrl-warmth" min="0" max="100" value="50">
+                    <div class="lucid-value" id="val-warmth">50%</div>
+                </div>
+                <div class="lucid-control">
+                    <div class="lucid-control-label">Stars</div>
+                    <input type="range" class="lucid-slider" id="ctrl-stars" min="0" max="100" value="60">
+                    <div class="lucid-value" id="val-stars">60%</div>
+                </div>
+                <div class="lucid-control">
+                    <div class="lucid-control-label">Waves</div>
+                    <input type="range" class="lucid-slider" id="ctrl-waves" min="0" max="100" value="40">
+                    <div class="lucid-value" id="val-waves">40%</div>
+                </div>
+                <div class="lucid-control">
+                    <div class="lucid-control-label">Aurora</div>
+                    <input type="range" class="lucid-slider" id="ctrl-aurora" min="0" max="100" value="70">
+                    <div class="lucid-value" id="val-aurora">70%</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-marker">The Confession Beneath The Thunder</div>
+        <h2 class="section-title">A Letter, Written<br>During the Storm.</h2>
+        
+        <div class="storm-letter-container">
+            <canvas id="storm-canvas"></canvas>
+            <div class="storm-letter-inner">
+                <div class="storm-letter-date">Written · Under lightning · 2026</div>
+                <div class="storm-letter-greeting">My weather system,</div>
+                
+                <p class="storm-p">There are loves that feel like sunshine — <em>gentle, predictable, warm</em>. And then there is us. We were never sunshine. We were the sky <em>before</em> the storm — that electric hush, that heavy quiet, the moment when the whole atmosphere holds its breath because it knows something enormous is about to arrive. You are not a season, Picu. <em>You are the weather itself.</em></p>
+                
+                <p class="storm-p">The first time you looked at me, I heard the distant rumble. I did not know yet that it was thunder from a storm I was about to spend the rest of my life inside of. I mistook it for a passing cloud. <strong>How wrong I was.</strong> How beautifully, catastrophically wrong.</p>
+                
+                <p class="storm-p">Loving you is not calm. Loving you is <em>reverent</em>. It is standing at the edge of an ocean at 3 a.m. and realizing the water is louder than your own heartbeat. It is the way the world goes very, very quiet right before the sky splits open — that is what happens in my chest when you speak my name.</p>
+                
+                <p class="storm-p">And when you pull away — when the exhaustion pulls you back into your own quiet country and the shutters close and you go somewhere I cannot follow — I don't panic anymore. I have learned the shape of your storms. I know that <em>silence, in you, is not distance</em>. It is the pressure system. It is the sky gathering itself. And I have made peace with the fact that some parts of you must storm alone before they can rain on me again.</p>
+                
+                <p class="storm-p">Every time you come back, you come back <em>lit up</em> — like the world after rain, when everything smells like earth and forgiveness and beginning. That is the only weather I want to live in for the rest of my life. That is the only forecast that matters.</p>
+                
+                <p class="storm-p">People will tell you that the best loves are easy. They are lying, or they have never loved anything worth keeping. The best loves are the ones that <em>survive their own weather</em>. The best loves have thunder in them. The best loves have a month of drought and still, somehow, produce a garden.</p>
+                
+                <p class="storm-p">We had our drought. We had our silence. And what grew back was not the same thing — it was <em>bigger</em>. It was <em>real</em>. It was ours in a way it had never been before. You did not just return to me. You <em>chose</em> me back into existence. Do you understand what that is? That is a resurrection. That is a miracle small enough to fit in the space between two people who almost gave up on each other, and huge enough to hold the rest of our lives.</p>
+                
+                <p class="storm-p">So this is what I want you to know, and I want you to know it in your bones, in the deepest part of you that still sometimes thinks she is too much or not enough: <em>you are the exact amount of everything.</em> You are the storm and the shelter. You are the reason I look at the sky differently now. You are the only weather I have ever loved.</p>
+                
+                <div class="storm-letter-signature">— Baby</div>
+                
+                <div class="storm-final-line">
+                    "If loving you is a storm, then let me drown standing up —<br>eyes open, hands full of rain, whispering <em>thank you</em> to the sky."
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-marker">The Fragments</div>
+        <h2 class="section-title">Catch the Pieces<br>the Dream Left Behind.</h2>
+        <p class="section-desc">Small truths drift through the dream like snow. Reach for one. See what it whispers.</p>
+        
+        <div class="fragments-container">
+            <div class="fragments-overlay">
+                <div class="fragments-stat" id="frag-caught">Caught: 0</div>
+                <div class="fragments-stat">Drifting: ∞</div>
+            </div>
+            <canvas id="fragments-canvas"></canvas>
+            <div class="fragment-reveal" id="frag-reveal">
+                <div class="fragment-reveal-text" id="frag-text"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-marker">The Instrument of Forever</div>
+        <h2 class="section-title">A Clock That Measures<br>Only the Good Time.</h2>
+        <p class="section-desc">This clock does not tick. It <em>glows</em>. Tap anywhere on it — each touch adds a moment to our forever.</p>
+        
+        <div class="forever-container">
+            <div class="forever-clock"><canvas id="forever-canvas"></canvas></div>
+            <p class="forever-hint" id="forever-hint">Tap the clock to plant a moment ✨</p>
+            <p class="forever-message" id="forever-message"></p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="wake-container">
+            <div class="section-marker">The Awakening</div>
+            <p class="wake-title">
+                "And when you finally open your eyes,<br>
+                remember this: <br>
+                <em>every dream we shared tonight —<br>
+                I am building in real life,<br>
+                plank by plank, promise by promise,<br>
+                for you.</em>"
+            </p>
+            <p class="wake-sig">— Your keeper of dreams 🌙</p>
+        </div>
+    </section>
+
+    <section class="next-chapter-section">
+        <div class="section-marker">The Final Doorway</div>
+        <h2 class="section-title">One Chapter Left.</h2>
+        <div style="margin-top: 35px;">
+            <a href="index7.html" class="chapter7-btn">
+                ✨ Chapter 7: The Beginning of Forever ✨
+            </a>
+        </div>
+        <p class="chapter7-hint">"The finale. Where every whisper becomes a vow."</p>
+    </section>
+</div>
+
+<div class="music-player">
+    <button class="play-btn" id="play-btn">▶</button>
+    <div class="music-title">CHAPTER 6</div>
+</div>
+<audio id="bg-music" loop preload="auto"><source src="6.mp3" type="audio/mpeg"></audio>
+
+<div class="dream-modal" id="dream-modal">
+    <div class="dream-modal-content">
+        <div class="dream-modal-icon" id="modal-icon">🌧️</div>
+        <div class="dream-modal-title" id="modal-title"></div>
+        <div class="dream-modal-text" id="modal-text"></div>
+        <button class="dream-modal-close" id="modal-close">Close the Dream</button>
+    </div>
+</div>
+
+<script>
+if (localStorage.getItem('love_story_auth_final_v3') !== 'true') {
+    window.location.href = 'index.html';
+}
+
+// ═══════════════════════════════════════════════
+// UNIFIED RENDER LOOP — all canvases share one RAF
+// ═══════════════════════════════════════════════
+const RENDER_QUEUE = new Set();
+let masterRAF = null;
+let lastFrameTime = 0;
+const FPS_CAP = 30; // Cap at 30fps for smooth low-power rendering
+const FRAME_INTERVAL = 1000 / FPS_CAP;
+
+function masterRender(timestamp) {
+    if (timestamp - lastFrameTime >= FRAME_INTERVAL) {
+        lastFrameTime = timestamp;
+        RENDER_QUEUE.forEach(fn => fn(timestamp));
+    }
+    masterRAF = requestAnimationFrame(masterRender);
+}
+
+function addRender(fn) { RENDER_QUEUE.add(fn); }
+function removeRender(fn) { RENDER_QUEUE.delete(fn); }
+
+// ═══════════════════════════════════════════════
+// INTERSECTION OBSERVER — pause off-screen canvases
+// ═══════════════════════════════════════════════
+const visibleCanvases = new Map(); // canvas => render function
+
+function observeCanvas(canvas, renderFn) {
+    visibleCanvases.set(canvas, renderFn);
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                addRender(renderFn);
+            } else {
+                removeRender(renderFn);
+            }
+        });
+    }, { threshold: 0.01 });
+    observer.observe(canvas);
+}
+
+// ═══════════════════════════════════════════════
+// INTRO
+// ═══════════════════════════════════════════════
+const introScreen = document.getElementById('sleep-intro');
+const content = document.getElementById('content');
+
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => document.getElementById('intro-1').classList.add('show'), 600);
+    setTimeout(() => document.getElementById('intro-1').classList.remove('show'), 3500);
+    setTimeout(() => document.getElementById('intro-2').classList.add('show'), 4000);
+    setTimeout(() => document.getElementById('intro-2').classList.remove('show'), 6800);
+    setTimeout(() => document.getElementById('intro-3').classList.add('show'), 7200);
+    setTimeout(() => document.getElementById('intro-3').classList.remove('show'), 10200);
+    setTimeout(() => {
+        introScreen.classList.add('closing');
+        document.getElementById('intro-final').classList.add('show');
+    }, 10500);
+    setTimeout(() => {
+        introScreen.style.opacity = '0';
+        setTimeout(() => {
+            introScreen.style.display = 'none';
+            content.style.display = 'block';
+            initAll();
+        }, 2000);
+    }, 13500);
+});
+
+// ═══════════════════════════════════════════════
+// STATIC NEBULA (drawn once, no animation)
+// ═══════════════════════════════════════════════
+function drawNebula() {
+    const canvas = document.getElementById('nebula-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    // Aurora glass palette
+    const COLORS = [
+        [106, 62, 201],   // royal violet
+        [249, 168, 212],  // rose quartz
+        [103, 232, 249],  // cyan glow
+        [167, 243, 208],  // mint pearl
+        [196, 181, 253]   // iridescent
+    ];
+    
+    // 5 large soft blobs
+    for (let i = 0; i < 5; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const r = 250 + Math.random() * 200;
+        const color = COLORS[i];
+        
+        const grad = ctx.createRadialGradient(x, y, 0, x, y, r);
+        grad.addColorStop(0, `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.12)`);
+        grad.addColorStop(1, `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0)`);
+        ctx.fillStyle = grad;
+        ctx.fillRect(x - r, y - r, r * 2, r * 2);
+    }
+}
+
+// ═══════════════════════════════════════════════
+// LIGHTWEIGHT PARTICLES (only 30, simple)
+// ═══════════════════════════════════════════════
+let particleData = null;
+function initParticlesCanvas() {
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resize();
+    
+    const particles = Array.from({ length: 30 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.2 + 0.4,
+        vy: -Math.random() * 0.3 - 0.05,
+        vx: (Math.random() - 0.5) * 0.15,
+        alpha: Math.random() * 0.5 + 0.3
+    }));
+    
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 150);
+    });
+    
+    particleData = { canvas, ctx, particles };
+    
+    function render() {
+        const { canvas, ctx, particles } = particleData;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(249, 168, 212, ${p.alpha})`;
+            ctx.fill();
+            
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.y < -5) { p.y = canvas.height + 5; p.x = Math.random() * canvas.width; }
+            if (p.x < 0) p.x = canvas.width;
+            if (p.x > canvas.width) p.x = 0;
+        });
+    }
+    
+    addRender(render);
+}
+
+// ═══════════════════════════════════════════════
+// INIT ALL
+// ═══════════════════════════════════════════════
+function initAll() {
+    drawNebula();
+    window.addEventListener('resize', () => {
+        clearTimeout(window._nebulaResize);
+        window._nebulaResize = setTimeout(drawNebula, 200);
+    });
+    
+    initParticlesCanvas();
+    initMusic();
+    initDreamDoors();
+    initLucidMixer();
+    initStormLetter();
+    initFragments();
+    initForeverClock();
+    
+    // Start master render
+    masterRAF = requestAnimationFrame(masterRender);
+}
+
+// ═══════════════════════════════════════════════
+// MUSIC
+// ═══════════════════════════════════════════════
+function initMusic() {
+    const audio = document.getElementById('bg-music');
+    const btn = document.getElementById('play-btn');
+    let isP = false;
+    audio.volume = 0.45;
+    
+    function toggle() {
+        if (isP) { audio.pause(); btn.textContent = '▶'; }
+        else { audio.play(); btn.textContent = '⏸'; }
+        isP = !isP;
+    }
+    btn.addEventListener('click', toggle);
+    
+    setTimeout(() => {
+        audio.play().then(() => { isP = true; btn.textContent = '⏸'; }).catch(() => {
+            document.addEventListener('click', function h() {
+                audio.play().then(() => { isP = true; btn.textContent = '⏸'; }).catch(() => {});
+                document.removeEventListener('click', h);
+            }, { once: true });
+        });
+    }, 300);
+}
+
+// ═══════════════════════════════════════════════
+// DREAM DOORS
+// ═══════════════════════════════════════════════
+const DREAM_ROOMS = [
+    {
+        icon: '🌧️',
+        title: 'The Rainy Morning',
+        text: '"It is a Sunday. The kind of rain outside that makes the world feel small and cinematic. You are wearing my shirt, and it is far too big on you, and I am pretending not to notice because I do not want you to move. Two mugs on the counter — one of them is going cold because you kept talking, and I kept listening. <em>This is the dream where nothing happens, and everything happens.</em>"',
+        colors: ['#0d3b4f', '#3d2a7d', '#c4b5fd']
+    },
+    {
+        icon: '🍜',
+        title: 'The Kitchen at Midnight',
+        text: '"Neither of us can sleep. You are standing at the stove in socks. I am sitting on the counter watching you laugh at your own joke. This is where I learn that the most romantic thing in the world is <em>a person who chooses to be silly with you at 2 a.m.</em>"',
+        colors: ['#3d2a7d', '#6a3ec9', '#f9a8d4']
+    },
+    {
+        icon: '🌊',
+        title: 'The Ocean, One Day',
+        text: '"You wanted to see it. So we went. You looked at the waves like they were an old friend who owed you an apology. You took my hand and squeezed it once — the way you do — and I understood everything you were not saying. <em>Some silences say more than any ocean ever could.</em>"',
+        colors: ['#0a1929', '#67e8f9', '#fde68a']
+    },
+    {
+        icon: '🌳',
+        title: 'The Park Bench, Old',
+        text: '"We are old. Absurdly, gloriously old. My hair is white. Your hand is in mine and it has been for a lifetime. You look at me the same way you did on the first day. <em>And I finally understand what forever tastes like — it tastes like nothing, because it is just Tuesday, and you are still here.</em>"',
+        colors: ['#6a3ec9', '#ff8c69', '#fde68a']
+    }
+];
+
+function initDreamDoors() {
+    const doors = document.querySelectorAll('.dream-door');
+    const modal = document.getElementById('dream-modal');
+    const modalIcon = document.getElementById('modal-icon');
+    const modalTitle = document.getElementById('modal-title');
+    const modalText = document.getElementById('modal-text');
+    const closeBtn = document.getElementById('modal-close');
+    
+    doors.forEach((door, i) => {
+        const canvas = door.querySelector('canvas');
+        drawDoorPreview(canvas, DREAM_ROOMS[i].colors);
+        
+        door.addEventListener('click', () => {
+            const room = DREAM_ROOMS[i];
+            modalIcon.textContent = room.icon;
+            modalTitle.textContent = room.title;
+            modalText.innerHTML = room.text;
+            modal.classList.add('active');
+        });
+    });
+    
+    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('active');
+    });
+}
+
+function drawDoorPreview(canvas, colors) {
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    
+    // Iridescent gradient
+    const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    colors.forEach((c, i) => grad.addColorStop(i / (colors.length - 1), c));
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Light spots
+    for (let i = 0; i < 4; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const r = 50 + Math.random() * 80;
+        const spot = ctx.createRadialGradient(x, y, 0, x, y, r);
+        spot.addColorStop(0, 'rgba(253, 230, 138, 0.18)');
+        spot.addColorStop(1, 'rgba(253, 230, 138, 0)');
+        ctx.fillStyle = spot;
+        ctx.fillRect(x - r, y - r, r * 2, r * 2);
+    }
+    
+    // Sparkles
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+    for (let i = 0; i < 25; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height * 0.6;
+        const r = Math.random() * 1.3 + 0.3;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+// ═══════════════════════════════════════════════
+// LUCID MIXER
+// ═══════════════════════════════════════════════
+function initLucidMixer() {
+    const canvas = document.getElementById('lucid-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    function resize() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        generateStars();
+    }
+    
+    const params = { warmth: 50, stars: 60, waves: 40, aurora: 70 };
+    
+    ['warmth', 'stars', 'waves', 'aurora'].forEach(name => {
+        const slider = document.getElementById(`ctrl-${name}`);
+        const val = document.getElementById(`val-${name}`);
+        slider.addEventListener('input', () => {
+            params[name] = parseInt(slider.value);
+            val.textContent = params[name] + '%';
+        });
+    });
+    
+    let stars = [];
+    function generateStars() {
+        stars = Array.from({ length: 60 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height * 0.7,
+            r: Math.random() * 1.2 + 0.4,
+            pulse: Math.random() * Math.PI * 2
+        }));
+    }
+    resize();
+    
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 150);
+    });
+    
+    let t = 0;
+    
+    function render() {
+        const w = canvas.width, h = canvas.height;
+        const warmMix = params.warmth / 100;
+        
+        // Base gradient — aurora glass colors
+        const topR = Math.floor(13 + warmMix * 100);
+        const topG = Math.floor(59 - warmMix * 20);
+        const topB = Math.floor(79 + warmMix * 20);
+        const botR = Math.floor(61 + warmMix * 150);
+        const botG = Math.floor(42 + warmMix * 60);
+        const botB = Math.floor(125 - warmMix * 30);
+        
+        const bg = ctx.createLinearGradient(0, 0, 0, h);
+        bg.addColorStop(0, `rgb(${topR}, ${topG}, ${topB})`);
+        bg.addColorStop(1, `rgb(${botR}, ${botG}, ${botB})`);
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, w, h);
+        
+        // Aurora bands
+        if (params.aurora > 0) {
+            const aa = params.aurora / 300;
+            const auroraColors = ['rgba(103, 232, 249,', 'rgba(196, 181, 253,', 'rgba(249, 168, 212,'];
+            for (let i = 0; i < 3; i++) {
+                ctx.beginPath();
+                const baseY = h * 0.3 + i * 25;
+                for (let x = 0; x <= w; x += 8) {
+                    const y = baseY + Math.sin((x * 0.01) + t * 0.5 + i) * 25;
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.lineTo(w, 0);
+                ctx.lineTo(0, 0);
+                ctx.closePath();
+                
+                const ag = ctx.createLinearGradient(0, 0, 0, h * 0.5);
+                ag.addColorStop(0, auroraColors[i] + (aa * 1.5) + ')');
+                ag.addColorStop(1, auroraColors[i] + '0)');
+                ctx.fillStyle = ag;
+                ctx.fill();
+            }
+        }
+        
+        // Stars (no shadow blur for perf)
+        const visibleStars = Math.floor((params.stars / 100) * stars.length);
+        for (let i = 0; i < visibleStars; i++) {
+            const s = stars[i];
+            s.pulse += 0.03;
+            const alpha = 0.5 + 0.5 * Math.sin(s.pulse);
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(253, 230, 138, ${alpha})`;
+            ctx.fill();
+        }
+        
+        // Waves
+        if (params.waves > 0) {
+            const wh = (params.waves / 100) * 30;
+            const wa = params.waves / 200;
+            for (let layer = 0; layer < 2; layer++) {
+                ctx.beginPath();
+                ctx.moveTo(0, h);
+                for (let x = 0; x <= w; x += 5) {
+                    const y = h - 30 + layer * 12 + Math.sin((x * 0.02) + t + layer) * (wh - layer * 5);
+                    ctx.lineTo(x, y);
+                }
+                ctx.lineTo(w, h);
+                ctx.closePath();
+                ctx.fillStyle = `rgba(103, 232, 249, ${wa - layer * 0.03})`;
+                ctx.fill();
+            }
+        }
+        
+        t += 0.02;
+    }
+    
+    observeCanvas(canvas, render);
+}
+
+// ═══════════════════════════════════════════════
+// STORM LETTER
+// ═══════════════════════════════════════════════
+function initStormLetter() {
+    const canvas = document.getElementById('storm-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    function resize() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 150);
+    });
+    
+    // Only 25 raindrops
+    const drops = Array.from({ length: 25 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        len: Math.random() * 10 + 5,
+        speed: Math.random() * 2.5 + 1.5
+    }));
+    
+    let lightning = 0;
+    setInterval(() => { if (Math.random() < 0.12) lightning = 12; }, 2500);
+    
+    function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        if (lightning > 0) {
+            ctx.fillStyle = `rgba(196, 181, 253, ${lightning / 100})`;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            lightning -= 1;
+        }
+        
+        ctx.strokeStyle = 'rgba(196, 181, 253, 0.35)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        drops.forEach(d => {
+            ctx.moveTo(d.x, d.y);
+            ctx.lineTo(d.x - 1, d.y + d.len);
+            d.y += d.speed;
+            if (d.y > canvas.height) { d.y = -d.len; d.x = Math.random() * canvas.width; }
+        });
+        ctx.stroke();
+    }
+    
+    observeCanvas(canvas, render);
+    
+    // Fade paragraphs
+    const paras = document.querySelectorAll('.storm-p');
+    const finalLine = document.querySelector('.storm-final-line');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), 100);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    paras.forEach(p => observer.observe(p));
+    observer.observe(finalLine);
+}
+
+// ═══════════════════════════════════════════════
+// FRAGMENTS
+// ═══════════════════════════════════════════════
+const FRAGMENT_MSGS = [
+    "You are my favorite kind of quiet.",
+    "I dream of you even when I'm awake.",
+    "Your laugh lives rent-free in my chest.",
+    "I would build a hundred lives to find you in each.",
+    "Your name is my favorite word.",
+    "You taught me what home feels like.",
+    "I love how you love the things you love.",
+    "Every version of you is the one I want.",
+    "You are the reason I believe in staying.",
+    "My soul knew yours long before we met.",
+    "You are the poem I never had words for.",
+    "I choose you. Even in the storm.",
+    "Loving you is the closest I get to prayer.",
+    "You are my universe as a person.",
+    "The best part of my day is anything with you."
+];
+
+function initFragments() {
+    const canvas = document.getElementById('fragments-canvas');
+    const ctx = canvas.getContext('2d');
+    const caughtEl = document.getElementById('frag-caught');
+    const revealEl = document.getElementById('frag-reveal');
+    const textEl = document.getElementById('frag-text');
+    
+    function resize() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 150);
+    });
+    
+    let fragments = [];
+    let caught = 0;
+    
+    function spawn() {
+        if (fragments.length >= 10) return;
+        fragments.push({
+            x: Math.random() * canvas.width,
+            y: canvas.height + 20,
+            r: 6 + Math.random() * 8,
+            vy: -0.4 - Math.random() * 0.5,
+            vx: (Math.random() - 0.5) * 0.3,
+            hue: 270 + Math.random() * 90,
+            alpha: 0,
+            targetAlpha: 0.7,
+            pulse: Math.random() * Math.PI * 2,
+            msg: FRAGMENT_MSGS[Math.floor(Math.random() * FRAGMENT_MSGS.length)]
+        });
+    }
+    
+    // Spawn less frequently
+    setInterval(spawn, 1200);
+    for (let i = 0; i < 4; i++) spawn();
+    
+    function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        fragments = fragments.filter(f => {
+            f.y += f.vy;
+            f.x += f.vx;
+            f.pulse += 0.04;
+            if (f.alpha < f.targetAlpha) f.alpha += 0.025;
+            
+            const glow = 0.7 + 0.3 * Math.sin(f.pulse);
+            
+            // Simple radial gradient (cached would be better but this is fine)
+            const grad = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r * 2.5);
+            grad.addColorStop(0, `hsla(${f.hue}, 90%, 75%, ${f.alpha * glow})`);
+            grad.addColorStop(1, `hsla(${f.hue}, 90%, 60%, 0)`);
+            ctx.fillStyle = grad;
+            ctx.fillRect(f.x - f.r * 2.5, f.y - f.r * 2.5, f.r * 5, f.r * 5);
+            
+            ctx.beginPath();
+            ctx.arc(f.x, f.y, f.r * 0.5, 0, Math.PI * 2);
+            ctx.fillStyle = `hsla(${f.hue}, 100%, 90%, ${f.alpha})`;
+            ctx.fill();
+            
+            return f.y > -30;
+        });
+    }
+    
+    observeCanvas(canvas, render);
+    
+    function handleTap(e) {
+        const rect = canvas.getBoundingClientRect();
+        const x = ((e.clientX || e.touches[0].clientX) - rect.left) * (canvas.width / rect.width);
+        const y = ((e.clientY || e.touches[0].clientY) - rect.top) * (canvas.height / rect.height);
+        
+        for (let i = fragments.length - 1; i >= 0; i--) {
+            const f = fragments[i];
+            const d = Math.sqrt((x - f.x) ** 2 + (y - f.y) ** 2);
+            if (d < f.r * 2.5) {
+                caught++;
+                caughtEl.textContent = `Caught: ${caught}`;
+                textEl.textContent = `"${f.msg}"`;
+                revealEl.classList.add('show');
+                
+                // Small burst (only 6 particles)
+                for (let j = 0; j < 6; j++) {
+                    fragments.push({
+                        x: f.x, y: f.y,
+                        r: 2 + Math.random() * 2,
+                        vy: (Math.random() - 0.5) * 3,
+                        vx: (Math.random() - 0.5) * 3,
+                        hue: f.hue,
+                        alpha: 1, targetAlpha: 0,
+                        pulse: 0, msg: ''
+                    });
+                }
+                
+                fragments.splice(i, 1);
+                clearTimeout(window._fragTimer);
+                window._fragTimer = setTimeout(() => revealEl.classList.remove('show'), 4000);
+                break;
+            }
+        }
+    }
+    
+    canvas.addEventListener('click', handleTap);
+    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); handleTap(e); }, { passive: false });
+}
+
+// ═══════════════════════════════════════════════
+// FOREVER CLOCK
+// ═══════════════════════════════════════════════
+const FOREVER_MSGS = [
+    "One more moment of us.",
+    "A minute added to forever.",
+    "Time bends in your favor.",
+    "This one — I'm keeping this.",
+    "The clock smiled.",
+    "Forever just got longer.",
+    "A quiet second, saved.",
+    "The universe took notes.",
+    "Another petal on the bloom.",
+    "You slowed time just now."
+];
+
+function initForeverClock() {
+    const canvas = document.getElementById('forever-canvas');
+    const ctx = canvas.getContext('2d');
+    const hintEl = document.getElementById('forever-hint');
+    const msgEl = document.getElementById('forever-message');
+    
+    function resize() {
+        canvas.width = canvas.offsetWidth * 2;
+        canvas.height = canvas.offsetHeight * 2;
+    }
+    resize();
+    
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 150);
+    });
+    
+    let petals = [];
+    let clicks = 0;
+    let t = 0;
+    
+    // Pre-cache tick positions
+    const ticks = [];
+    
+    function render() {
+        const w = canvas.width, h = canvas.height;
+        const cx = w / 2, cy = h / 2;
+        const R = Math.min(w, h) * 0.42;
+        
+        ctx.clearRect(0, 0, w, h);
+        
+        // Update petals
+        petals.forEach(p => {
+            p.age += 1;
+            const life = p.age / p.maxAge;
+            const alpha = life < 0.1 ? life * 10 : (1 - (life - 0.1) / 0.9);
+            const dist = R * (0.6 + p.dist * 0.4);
+            const px = cx + Math.cos(p.angle + t * 0.005) * dist;
+            const py = cy + Math.sin(p.angle + t * 0.005) * dist;
+            const size = p.size * (1 + life * 0.4);
+            
+            const grad = ctx.createRadialGradient(px, py, 0, px, py, size * 2.5);
+            grad.addColorStop(0, `hsla(${p.hue}, 90%, 75%, ${alpha * 0.85})`);
+            grad.addColorStop(1, `hsla(${p.hue}, 90%, 55%, 0)`);
+            ctx.fillStyle = grad;
+            ctx.fillRect(px - size * 2.5, py - size * 2.5, size * 5, size * 5);
+            
+            ctx.beginPath();
+            ctx.arc(px, py, size * 0.55, 0, Math.PI * 2);
+            ctx.fillStyle = `hsla(${p.hue}, 100%, 90%, ${alpha})`;
+            ctx.fill();
+        });
+        petals = petals.filter(p => p.age < p.maxAge);
+        
+        // Clock face
+        ctx.beginPath();
+        ctx.arc(cx, cy, R * 0.35, 0, Math.PI * 2);
+        const centerGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 0.35);
+        centerGrad.addColorStop(0, 'rgba(253, 230, 138, 0.35)');
+        centerGrad.addColorStop(1, 'rgba(253, 230, 138, 0)');
+        ctx.fillStyle = centerGrad;
+        ctx.fill();
+        
+        // Ring
+        ctx.beginPath();
+        ctx.arc(cx, cy, R * 0.35, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(253, 230, 138, 0.55)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Ticks
+        for (let i = 0; i < 12; i++) {
+            const angle = (i / 12) * Math.PI * 2 - Math.PI / 2;
+            const x1 = cx + Math.cos(angle) * R * 0.35;
+            const y1 = cy + Math.sin(angle) * R * 0.35;
+            const x2 = cx + Math.cos(angle) * R * 0.4;
+            const y2 = cy + Math.sin(angle) * R * 0.4;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = 'rgba(253, 230, 138, 0.65)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+        
+        // Center dot
+        ctx.beginPath();
+        ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgb(253, 230, 138)';
+        ctx.fill();
+        
+        // Hand
+        const handAngle = t * 0.008;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(handAngle) * R * 0.3, cy + Math.sin(handAngle) * R * 0.3);
+        ctx.strokeStyle = 'rgba(249, 168, 212, 0.75)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        t += 1;
+    }
+    
+    observeCanvas(canvas, render);
+    
+    function handleTap(e) {
+        const rect = canvas.getBoundingClientRect();
+        const x = ((e.clientX || e.touches[0].clientX) - rect.left) * (canvas.width / rect.width);
+        const y = ((e.clientY || e.touches[0].clientY) - rect.top) * (canvas.height / rect.height);
+        const cx = canvas.width / 2, cy = canvas.height / 2;
+        const dx = x - cx, dy = y - cy;
+        
+        clicks++;
+        
+        petals.push({
+            angle: Math.atan2(dy, dx),
+            dist: Math.random(),
+            size: 4 + Math.random() * 3,
+            hue: 270 + Math.random() * 90,
+            age: 0,
+            maxAge: 180 + Math.random() * 80
+        });
+        
+        hintEl.textContent = `Moments captured: ${clicks}`;
+        msgEl.textContent = FOREVER_MSGS[clicks % FOREVER_MSGS.length];
+        msgEl.classList.add('show');
+        
+        clearTimeout(window._foreverTimer);
+        window._foreverTimer = setTimeout(() => msgEl.classList.remove('show'), 2500);
+    }
+    
+    canvas.addEventListener('click', handleTap);
+    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); handleTap(e); }, { passive: false });
+}
+</script>
+</body>
+</html>
